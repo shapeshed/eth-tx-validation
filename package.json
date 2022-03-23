@@ -1,0 +1,14 @@
+{
+  "name": "transaction-decoding",
+  "version": "0.0.1",
+  "description": "Demonstration of decoding an Ethereum transaction",
+  "main": "index.ts",
+  "author": "George Ornbo <george@shapeshed.com> (http://shapeshed.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.22"
+  }
+}
