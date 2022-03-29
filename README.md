@@ -203,7 +203,7 @@ This outputs the decoded extraData field.
 ]
 ```
 
-The signed block hashes may be recovered to verify that the public keys of the validators that signed the block.
+The signed block hashes may be recovered to verify the public keys of the validators that signed the block.
 
 ``` javascript
 const provider = ethers.getDefaultProvider('http://localhost:8545');
