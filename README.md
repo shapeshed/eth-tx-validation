@@ -4,7 +4,7 @@ We are going to
 
 * Retrieve a raw Ethereum Transaction
 * Understand how to recover the signature of the transaction
-* Understand how to recover the signature of the miner 
+* Understand how to recover the signatures of the IBFT2 Validators
 * Understand how to examine contract data and state transitions
 
 ## Prerequisities
