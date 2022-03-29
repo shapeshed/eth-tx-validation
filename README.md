@@ -10,13 +10,22 @@ We are going to
 ## Prerequisities
 
 * Node.js
+* Docker
 * curl
 * jq
 
-Using cURL we can fetch a transaction from mainnet
+## Running a local IBFT network
+
+For the purpose of this exercise we will run a local IBFT blockchain network using the [Quorum Dev Quickstart project][4]
+
+The documentation on the project is good and shows how to start the network. 
+
+## Transactions
+
+Using cURL we can fetch a transaction
 
 ``` bash
-curl https://mainnet.infura.io/v3/84842078b09946638c03157f83405213 \
+curl http://localhost:8545 \
     -X POST \
     -H "Content-Type: application/json" \
     -d '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["0x2769fa79d3a55fdb003461ad8b86bc2a85e6f28ecf9f64c3246a30677fbff35d"],"id":1}' | jq .
@@ -99,7 +108,9 @@ console.log(from);
 The `ibft_getValidatorsByBlockNumber` provides a method to retrive the public keys of validators for a specific block.
 
 ``` bash
-curl -s -X POST --data '{"jsonrpc":"2.0","method":"ibft_getValidatorsByBlockNumber","params":["latest"], "id":1}' localhost:8545 | jq .
+curl -s -X POST \
+    --data '{"jsonrpc":"2.0","method":"ibft_getValidatorsByBlockNumber","params":["latest"], \
+    "id":1}' localhost:8545 | jq .
 ```
 
 ``` json
@@ -215,7 +226,7 @@ We can therefore verify that validators have signed the block and we can conside
 
 ## Understanding state transitions
 
-This is available in the data field of a transaction allowing state transitions to be observed.
+This is available in the input field of a transaction allowing state transitions to be observed.
 
 TODO pending contract interface
 
@@ -223,3 +234,4 @@ TODO pending contract interface
 [1]: https://bitcoin.stackexchange.com/questions/38351/ecdsa-v-r-s-what-is-v/38909#38909
 [2]: https://eips.ethereum.org/EIPS/eip-155
 [3]: https://eth.wiki/en/fundamentals/rlp
+[4]: https://github.com/ConsenSys/quorum-dev-quickstart
