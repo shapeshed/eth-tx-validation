@@ -67,19 +67,19 @@ As such we can separate the base transaction data from the signature data
 
 ``` javascript
 const baseTx = {
-		to: tx.to,
-		nonce: tx.nonce,
-		data: tx.data,
-		value: tx.value,
-		gasLimit: tx.gasLimit,
-		gasPrice: tx.gasPrice,
-		chainId: tx.chainId,
+    to: tx.to,
+    nonce: tx.nonce,
+    data: tx.data,
+    value: tx.value,
+    gasLimit: tx.gasLimit,
+    gasPrice: tx.gasPrice,
+    chainId: tx.chainId,
 }
 
 const sig = {
-		r: tx.r,
-		s: tx.s,
-		v: tx.v
+    r: tx.r,
+    s: tx.s,
+    v: tx.v
 };
 ```
 ## Recovering the transaction sender signature
