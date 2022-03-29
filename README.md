@@ -222,7 +222,7 @@ This returns the validators that signed the block
 0xa308b0e012056749D118A09bF079193Ae6Fd80C9
 ```
 
-We can therefore verify that validators have signed the block and we can consider it valid.
+We can therefore verify that known validators have signed the block and we can consider it valid.
 
 ## Understanding state transitions
 
