@@ -173,7 +173,7 @@ console.log(extraData);
 ```
 This outputs the decoded extraData field.
 
-``` json
+``` javascript
 [
   '0x0000000000000000000000000000000000000000000000000000000000000000',
   [
