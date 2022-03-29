@@ -56,7 +56,7 @@ The `v` value was added in [EIP-155][2] to offer protection against replay attac
 
 As such we can separate the base transaction data from the signature data
 
-```
+``` javascript
 const baseTx = {
 		to: tx.to,
 		nonce: tx.nonce,
@@ -87,7 +87,7 @@ We can therefore compute the unsigned RLP serialised transaction using the trans
 
 In this example the `ethers.js` library is used. Similar libraries exist for most popular programming languages.
 
-```
+``` javascript
 const unsignedTx = ethers.utils.serializeTransaction(baseTx);
 const preimage = ethers.utils.keccak256(unsignedTx);
 const from = ethers.utils.recoverAddress(preimage, sig);
@@ -98,8 +98,11 @@ console.log(from);
 
 The `ibft_getValidatorsByBlockNumber` provides a method to retrive the public keys of validators for a specific block.
 
-```
+``` bash
 curl -s -X POST --data '{"jsonrpc":"2.0","method":"ibft_getValidatorsByBlockNumber","params":["latest"], "id":1}' localhost:8545 | jq .
+```
+
+``` json
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -114,12 +117,14 @@ curl -s -X POST --data '{"jsonrpc":"2.0","method":"ibft_getValidatorsByBlockNumb
 
 We can then retrieve the block itself
 
-```
+``` bash
 curl -s -X POST \
     -H "Content-Type: application/json" \
     -d '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params": ["0x1",false],"id":1}' \
     http://localhost:8545 | jq .
 
+```
+``` json
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -160,7 +165,7 @@ The extraData property is an RLP encoding of:
 * The round the block was created on. The round in the genesis block is 0.
 * A list of seals of the validators (signed block hashes). No seals are included in the genesis block.
 
-```
+``` javascript
 const provider = ethers.getDefaultProvider('http://localhost:8545');
 const tx = await provider.getBlock(1);
 const extraData = ethers.utils.RLP.decode(tx.extraData);
@@ -168,7 +173,7 @@ console.log(extraData);
 ```
 This outputs the decoded extraData field.
 
-```
+``` json
 [
   '0x0000000000000000000000000000000000000000000000000000000000000000',
   [
@@ -189,7 +194,7 @@ This outputs the decoded extraData field.
 
 The signed block hashes may be recovered to verify that the public signed the block.
 
-```
+``` javascript
 const provider = ethers.getDefaultProvider('http://localhost:8545');
 const tx = await provider.getBlock(1);
 const extraData = ethers.utils.RLP.decode(tx.extraData);
@@ -200,7 +205,7 @@ extraData[4].forEach(function(signature,index) {
 ```
 This returns the validators that signed the block
 
-```
+``` bash
 0xd2067169082ab564FACAA0E95DB57711545A57fb
 0xDaF9D850c26245b8C11BDc4b280F536E3319f76C
 0xa308b0e012056749D118A09bF079193Ae6Fd80C9
