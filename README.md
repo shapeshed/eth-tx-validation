@@ -278,7 +278,7 @@ Ethereum Smart Contracts have the idea of an [Application Binary Interface][5]. 
 
 With knowledge of the Contract ABI and assuming the contract is known to be deployed at `0x6528c8a875f708d8e8c4455419125d1b457494d`we can examine a transaction for a function call. 
 
-```
+``` json
 {
   "jsonrpc": "2.0",
   "id": 1,
