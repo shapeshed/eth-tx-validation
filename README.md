@@ -319,7 +319,7 @@ keccak-256("setMyBool(bool)")
 eb1b30d970182ffcfb746b1690dbf238a52af4a04ca2d0e580dca72d6aa5f158
 ```
 
-So we can see that the value `eb1b30d97` evaluates to the setMyBool function. 
+So we can see that the value `eb1b30d97` evaluates to the `setMyBool` function. 
 
 The remainder is the data passed to the function. We can expand this to show the function call and the data passed to the function. 
 
@@ -333,6 +333,7 @@ We can see that the setMyBool function was called with a value of `true`.
 
 Given a contract abi many Ethereum client libraries handle this parsing transparently allowing contract calls to be examined by clients. 
 
+Used in conjunction with validating block and transaction by recovering signatures, raw transaction data can be verified. 
 
 
 [1]: https://bitcoin.stackexchange.com/questions/38351/ecdsa-v-r-s-what-is-v/38909#38909
