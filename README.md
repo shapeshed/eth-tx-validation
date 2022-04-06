@@ -241,7 +241,7 @@ contract BooleanExample {
 }
 ```
 
-The contract has a setter to allow a boolean value to be set. How can we examine a transaction to observe a state transition. 
+The contract has a setter to allow a boolean value to be set. How can we examine a transaction to observe a state transition on this contract? 
 
 Ethereum Smart Contracts have the idea of an [Application Binary Interface][5]. For our simple contract this is a JSON object as follows.
 
@@ -314,12 +314,14 @@ The field `input` contains data on the function call and data passed to the func
 
 The first four bytes are the function identifier using `bytess4(keccake256("functionName(type)"))`
 
+```
 keccak-256("setMyBool(bool)")
 eb1b30d970182ffcfb746b1690dbf238a52af4a04ca2d0e580dca72d6aa5f158
+```
 
 So we can see that the value `eb1b30d97` evaluates to the setMyBool function. 
 
-The remainder is the data passed to the function. We can expand this too. 
+The remainder is the data passed to the function. We can expand this to show the function call and the data passed to the function. 
 
 ```
 Function: setMyBool(bool _myBool) ***
