@@ -224,14 +224,117 @@ This returns the validators that signed the block
 
 We can therefore verify that known validators have signed the block and we can consider it valid.
 
-## Understanding state transitions
+## Understanding contract state transitions
 
-This is available in the input field of a transaction allowing state transitions to be observed.
+Consider the following simple contract
 
-TODO pending contract interface
+``` solidity
+pragma solidity ^0.8.1;
+
+contract BooleanExample {
+    bool public myBool;
+
+    function setMyBool(bool _myBool) public {
+        myBool = _myBool;
+    }
+
+}
+```
+
+The contract has a setter to allow a boolean value to be set. How can we examine a transaction to observe a state transition. 
+
+Ethereum Smart Contracts have the idea of an [Application Binary Interface][5]. For our simple contract this is a JSON object as follows.
+
+``` json
+[
+  {
+    "inputs": [],
+    "name": "myBool",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_myBool",
+        "type": "bool"
+      }
+    ],
+    "name": "setMyBool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
+```
+
+With knowledge of the Contract ABI and assuming the contract is known to be deployed at `0x6528c8a875f708d8e8c4455419125d1b457494d`we can examine a transaction for a function call. 
+
+```
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "accessList": [],
+    "blockHash": "0x53bae27e186b008b1d43e6da01b0e5e33eca0f5bb45556e8d8d1d3083892b438",
+    "blockNumber": "0x9f8dc8",
+    "chainId": "0x4",
+    "from": "0xd0def06b32b73aa8812cefff4665b0102f2b264a",
+    "gas": "0xab07",
+    "gasPrice": "0x1ba8edf0e",
+    "hash": "0xe85941f943fae46e528d3134c5b370a0f80e8d6691e78324a5d8c1e48f8f0ff0",
+    "input": "0xeb1b30d90000000000000000000000000000000000000000000000000000000000000001",
+    "maxFeePerGas": "0x32c1088b4",
+    "maxPriorityFeePerGas": "0x59682f00",
+    "nonce": "0x5",
+    "r": "0x21695e3df5f2e8b0cfc0cf25a0c9ca930f4c0dcbfe11a102679f5c2e9fd2c469",
+    "s": "0x1905a828597d8540a4f79b893a06ecb5a4840eb743f303e36c07e7edef6e43ad",
+    "to": "0x6528c8a875f708d8e8c4455419125d1b457494db",
+    "transactionIndex": "0x2d",
+    "type": "0x2",
+    "v": "0x1",
+    "value": "0x0"
+  }
+}
+```
+
+The field `input` contains data on the function call and data passed to the function. 
+
+```
+0xeb1b30d90000000000000000000000000000000000000000000000000000000000000001
+```
+
+The first four bytes are the function identifier using `bytess4(keccake256("functionName(type)"))`
+
+keccak-256("setMyBool(bool)")
+eb1b30d970182ffcfb746b1690dbf238a52af4a04ca2d0e580dca72d6aa5f158
+
+So we can see that the value `eb1b30d97` evaluates to the setMyBool function. 
+
+The remainder is the data passed to the function. We can expand this too. 
+
+```
+Function: setMyBool(bool _myBool) ***
+
+MethodID: 0xeb1b30d9
+[0]:  0000000000000000000000000000000000000000000000000000000000000001
+```
+We can see that the setMyBool function was called with a value of `true`. 
+
+Given a contract abi many Ethereum client libraries handle this parsing transparently allowing contract calls to be examined by clients. 
+
 
 
 [1]: https://bitcoin.stackexchange.com/questions/38351/ecdsa-v-r-s-what-is-v/38909#38909
 [2]: https://eips.ethereum.org/EIPS/eip-155
 [3]: https://eth.wiki/en/fundamentals/rlp
 [4]: https://github.com/ConsenSys/quorum-dev-quickstart
+[5]: https://www.mycryptopedia.com/ethereum-abi-explained/
